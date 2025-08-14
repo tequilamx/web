@@ -107,15 +107,15 @@
     </section>
     
     <!-- Sección Legado -->
-    <section id="legado" class="py-20 lg:py-32 relative">
+    <section id="legado" class="py-20 lg:py-40">
         <div class="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
-            <div id="legado-image-pin" class="h-screen sticky top-0 flex items-center">
+            <div class="lg:h-auto">
                 <div class="w-full h-[70vh] relative overflow-hidden rounded-lg shadow-2xl">
-                    <img loading="lazy" src="https://i.imgur.com/mFVrJqb.png" alt="Campo de Agave" class="w-full h-full object-cover" id="legado-image">
+                    <img loading="lazy" src="https://i.imgur.com/mFVrJqb.png" alt="Campo de Agave" class="w-full h-full object-cover parallax-img">
                 </div>
             </div>
-            <div class="relative z-10 lg:pt-[50vh] lg:pb-[50vh]">
-                <div class="bg-light-bg/80 backdrop-blur-md p-8 rounded-lg shadow-xl">
+            <div class="relative z-10">
+                <div class="reveal-up">
                     <h2 class="font-playfair text-4xl md:text-5xl font-bold mb-6 text-amber-900/80">Donde Nace la Leyenda</h2>
                     <div class="space-y-6 text-lg text-gray-700">
                         <p>En el corazón de Jalisco, donde la tierra se tiñe de rojo y el sol besa los campos de agave, comienza nuestra historia. Aztlán no es un lugar, es un legado. Es el eco de generaciones de jimadores cuya sabiduría no se encuentra en libros, sino en la tierra misma.</p>
@@ -153,6 +153,35 @@
                     <div class="flex items-center justify-center w-20 h-20 mx-auto mb-6 border-2 border-gold rounded-full gold-text font-playfair text-3xl font-bold">4</div>
                     <h3 class="text-2xl font-bold text-white mb-2">Maduración</h3>
                     <p class="text-gray-400">Reposo paciente en barricas de roble blanco que otorgan complejidad y carácter a nuestras expresiones.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Filosofía -->
+    <section id="filosofia" class="py-20 lg:py-32">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="font-playfair text-4xl md:text-5xl font-bold mb-4 text-amber-900/80 reveal-up">Nuestra Filosofía</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto reveal-up">Los principios que guían cada gota de Aztlán.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-10">
+                <div class="philosophy-card text-center reveal-up">
+                    <h3 class="font-playfair text-3xl font-bold mb-4 text-text-dark">Misión</h3>
+                    <p class="text-gray-700">Destilar la esencia de nuestra herencia en un tequila de calidad suprema, creando un puente entre el pasado mítico de México y el presente global.</p>
+                </div>
+                <div class="philosophy-card text-center reveal-up" data-delay="0.1">
+                    <h3 class="font-playfair text-3xl font-bold mb-4 text-text-dark">Visión</h3>
+                    <p class="text-gray-700">Convertir a Aztlán en un ícono mundial del lujo y la cultura mexicana, siendo la elección definitiva para conocedores que buscan autenticidad y excelencia.</p>
+                </div>
+                <div class="philosophy-card text-center reveal-up" data-delay="0.2">
+                    <h3 class="font-playfair text-3xl font-bold mb-4 text-text-dark">Valores</h3>
+                    <ul class="text-gray-700 space-y-1">
+                        <li><strong>Herencia:</strong> Custodios de un legado ancestral.</li>
+                        <li><strong>Artesanía:</strong> Dedicación al detalle en cada gota.</li>
+                        <li><strong>Respeto:</strong> Por nuestra tierra y nuestra gente.</li>
+                        <li><strong>Trascendencia:</strong> Crear momentos que perduren.</li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -198,39 +227,6 @@
                         <p class="text-gray-600 mb-4 text-sm h-12">Complejo y profundo. Sabor a chocolate, frutos secos y un final largo y sedoso.</p>
                         <button class="details-btn font-semibold text-gold hover:text-amber-900/80 transition-colors" data-title="Tequila Añejo" data-image="https://i.imgur.com/PXBmtLG.png" data-description="La joya de nuestra colección. Madurado pacientemente durante 18 meses en barricas de roble francés, nuestro Añejo es una obra de arte líquida." data-tasting-notes="Notas intensas de chocolate, café, tabaco y frutos secos. En boca es robusto, aterciielado y con un final excepcionalmente largo." data-pairing="Disfrutar solo, en una copa de coñac. Acompaña perfectamente un buen puro o postres de chocolate amargo.">Más Detalles →</button>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Sección Coctelería -->
-    <section id="cocteleria" class="section-dark py-20 lg:py-32">
-        <div class="max-w-6xl mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="font-playfair text-4xl md:text-5xl font-bold mb-4 gold-text reveal-up">El Arte del Cóctel</h2>
-                <p class="text-lg text-gray-400 max-w-3xl mx-auto reveal-up">Descubre la versatilidad de Aztlán con nuestras creaciones de autor.</p>
-            </div>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="cocktail-card group reveal-up">
-                    <div class="overflow-hidden rounded-lg mb-6">
-                        <img loading="lazy" src="https://placehold.co/800x1000/1a1a1a/FFFFFF?text=C%C3%B3ctel+Blanco" alt="Cóctel con Tequila Blanco" class="w-full h-96 object-cover transition-transform duration-500 group-hover:scale-110">
-                    </div>
-                    <h3 class="font-playfair text-2xl font-bold text-white">Paloma Dorada</h3>
-                    <p class="text-gray-400">Aztlán Blanco, jugo de toronja fresco, miel de agave y un toque de sal.</p>
-                </div>
-                <div class="cocktail-card group reveal-up" data-delay="0.1">
-                    <div class="overflow-hidden rounded-lg mb-6">
-                        <img loading="lazy" src="https://placehold.co/800x1000/1a1a1a/b9955a?text=C%C3%B3ctel+Reposado" alt="Cóctel con Tequila Reposado" class="w-full h-96 object-cover transition-transform duration-500 group-hover:scale-110">
-                    </div>
-                    <h3 class="font-playfair text-2xl font-bold text-white">Sol de Aztlán</h3>
-                    <p class="text-gray-400">Aztlán Reposado, licor de naranja, jugo de lima y un borde de chile.</p>
-                </div>
-                <div class="cocktail-card group reveal-up" data-delay="0.2">
-                    <div class="overflow-hidden rounded-lg mb-6">
-                        <img loading="lazy" src="https://placehold.co/800x1000/1a1a1a/8B5A2B?text=C%C3%B3ctel+A%C3%B1ejo" alt="Cóctel con Tequila Añejo" class="w-full h-96 object-cover transition-transform duration-500 group-hover:scale-110">
-                    </div>
-                    <h3 class="font-playfair text-2xl font-bold text-white">Noche Ancestral</h3>
-                    <p class="text-gray-400">Aztlán Añejo, amargo de angostura, un terrón de azúcar y piel de naranja.</p>
                 </div>
             </div>
         </div>
@@ -287,8 +283,10 @@
                     </form>
                 </div>
             </div>
-            <div class="mt-12 border-t border-gray-800 pt-8 text-center text-sm">
-                <p>© 2025 Tequila Aztlán. Todos los derechos reservados. | Disfruta con responsabilidad.</p>
+            <div class="mt-12 border-t border-gray-800 pt-8 text-center text-sm text-gray-600">
+                <p>CONSUMO RESPONSABLE +18</p>
+                <p class="mt-2">© 2025 Tequila Aztlán. Todos los derechos reservados.</p>
+                <p class="mt-4 text-xs">Powered by <a href="#" class="hover:text-gold transition-colors">weavy.agency</a></p>
             </div>
         </div>
     </footer>
