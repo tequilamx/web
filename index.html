@@ -52,6 +52,26 @@
             transform: translateY(120%);
             will-change: transform;
         }
+        /* Chatbot styles */
+        #chatbot-container {
+            transform: translateY(20px);
+            opacity: 0;
+            visibility: hidden;
+        }
+        .typing-indicator span {
+            height: 8px;
+            width: 8px;
+            background-color: #a3a3a3;
+            display: inline-block;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+        .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1.0); }
+        }
     </style>
 </head>
 <body class="font-inter overflow-x-hidden">
@@ -315,6 +335,34 @@
             </div>
         </div>
     </div>
+    
+    <!-- Chatbot -->
+    <button id="chatbot-toggle" class="fixed bottom-8 right-8 bg-gold text-black w-20 h-20 rounded-full shadow-lg flex items-center justify-center z-[101] transform hover:scale-110 transition-transform">
+        <img src="https://i.imgur.com/EvfIsDN.png" alt="Aztlán AI" class="h-16">
+    </button>
+    <div id="chatbot-container" class="fixed bottom-32 right-8 w-full max-w-sm h-auto max-h-[70vh] bg-white rounded-lg shadow-2xl z-[100] flex flex-col transition-all duration-300">
+        <div class="p-4 bg-gray-100 rounded-t-lg border-b flex justify-between items-center">
+            <div>
+                <h3 class="font-bold text-lg text-text-dark">Aztlán AI</h3>
+                <p class="text-xs text-gray-500">Powered by weavy.agency</p>
+            </div>
+            <button id="chatbot-close" class="text-gray-400 hover:text-gray-800">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        <div id="chat-window" class="flex-1 p-4 overflow-y-auto">
+            <!-- Mensajes del chat aquí -->
+            <div class="text-sm text-gray-600 bg-gray-100 p-3 rounded-lg self-start w-fit max-w-xs">¡Hola! Soy tu sommelier virtual. ¿En qué puedo ayudarte a descubrir sobre Tequila Aztlán?</div>
+        </div>
+        <div class="p-4 border-t bg-white rounded-b-lg">
+            <form id="chat-form" class="flex items-center">
+                <input type="text" id="chat-input" placeholder="Escribe tu pregunta..." class="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-gold">
+                <button type="submit" class="ml-3 bg-gold text-black rounded-full p-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7"></path></svg>
+                </button>
+            </form>
+        </div>
+    </div>
 
 
     <script>
@@ -383,20 +431,17 @@
                   .to("#hero-buttons", { opacity: 1, y: 0 }, "-=1")
                   .to("#hero-image", { opacity: 1, y: 0, scale: 1, rotation: 0, duration: 2 }, 0.2);
             
-            // Efecto Pin y Zoom en Legado
-            gsap.fromTo("#legado-image", 
-                { scale: 1.25 },
-                {
-                    scale: 1,
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: "#legado-image-pin",
-                        start: "top center",
-                        end: "bottom top",
-                        scrub: 1.5
-                    }
-                }
-            );
+            // Efecto Parallax en imagen de Legado
+            gsap.to(".parallax-img", {
+                yPercent: -15,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "#legado",
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: 1.5,
+                },
+            });
 
             // Navbar Scroll
             let lastScroll = 0;
@@ -438,6 +483,118 @@
                     });
                 });
             });
+
+            // Chatbot Logic
+            const chatbotToggle = document.getElementById('chatbot-toggle');
+            const chatbotContainer = document.getElementById('chatbot-container');
+            const chatbotClose = document.getElementById('chatbot-close');
+            const chatForm = document.getElementById('chat-form');
+            const chatInput = document.getElementById('chat-input');
+            const chatWindow = document.getElementById('chat-window');
+            let chatHistory = [];
+
+            const toggleChatbot = (show) => {
+                if (show) {
+                    chatbotContainer.style.visibility = 'visible';
+                    gsap.to(chatbotContainer, { opacity: 1, y: 0, duration: 0.3, ease: 'power3.out' });
+                } else {
+                    gsap.to(chatbotContainer, { opacity: 0, y: 20, duration: 0.3, ease: 'power3.in', onComplete: () => {
+                        chatbotContainer.style.visibility = 'hidden';
+                    }});
+                }
+            };
+
+            chatbotToggle.addEventListener('click', () => toggleChatbot(true));
+            chatbotClose.addEventListener('click', () => toggleChatbot(false));
+
+            chatForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const userMessage = chatInput.value.trim();
+                if (!userMessage) return;
+
+                appendMessage(userMessage, 'user');
+                chatInput.value = '';
+                appendTypingIndicator();
+
+                chatHistory.push({ role: "user", parts: [{ text: userMessage }] });
+                
+                const prompt = `Eres "Aztlán AI", un sommelier virtual experto en Tequila Aztlán. Tu personalidad es elegante, conocedora y apasionada. Responde las preguntas de los usuarios sobre nuestro tequila (historia, proceso, notas de cata, maridajes, etc.) basándote en la información de la página. Si no sabes algo, di que lo consultarás. Sé breve y amable. La pregunta es: "${userMessage}"`;
+                
+                try {
+                    const response = await callGeminiAPI(prompt);
+                    removeTypingIndicator();
+                    appendMessage(response, 'bot');
+                    chatHistory.push({ role: "model", parts: [{ text: response }] });
+                } catch (error) {
+                    removeTypingIndicator();
+                    appendMessage("Lo siento, estoy teniendo problemas para conectarme. Por favor, inténtalo de nuevo más tarde.", 'bot');
+                }
+            });
+
+            async function callGeminiAPI(prompt) {
+                const apiKey = ""; 
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+                
+                const payload = {
+                    contents: [{ role: "user", parts: [{ text: prompt }] }]
+                };
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API call failed with status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    return result.candidates[0].content.parts[0].text;
+                } else {
+                    return "No pude procesar esa respuesta. ¿Puedes preguntar de otra manera?";
+                }
+            }
+
+            function appendMessage(message, sender) {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('mb-3', 'text-sm');
+                
+                if (sender === 'user') {
+                    messageDiv.classList.add('text-right');
+                    messageDiv.innerHTML = `<div class="bg-gold text-black p-3 rounded-lg inline-block max-w-xs break-words">${message}</div>`;
+                } else {
+                    messageDiv.classList.add('text-left');
+                    messageDiv.innerHTML = `<div class="bg-gray-100 text-gray-700 p-3 rounded-lg inline-block max-w-xs break-words">${message}</div>`;
+                }
+                
+                chatWindow.appendChild(messageDiv);
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            }
+            
+            function appendTypingIndicator() {
+                const typingDiv = document.createElement('div');
+                typingDiv.id = 'typing-indicator';
+                typingDiv.classList.add('mb-3', 'text-sm', 'text-left');
+                typingDiv.innerHTML = `
+                    <div class="bg-gray-100 text-gray-700 p-3 rounded-lg inline-block">
+                        <div class="typing-indicator">
+                            <span></span><span></span><span></span>
+                        </div>
+                    </div>`;
+                chatWindow.appendChild(typingDiv);
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            }
+
+            function removeTypingIndicator() {
+                const indicator = document.getElementById('typing-indicator');
+                if (indicator) {
+                    indicator.remove();
+                }
+            }
 
         });
     </script>
