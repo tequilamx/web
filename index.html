@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tequila Aztlán - El Espíritu Ancestral</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- GSAP y ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <style>
+        :root {
+            --gold: #b9955a;
+            --dark-bg: #111111;
+            --light-bg: #FDFCF9;
+            --text-dark: #1a1a1a;
+            --text-light: #e5e5e5;
+        }
+        body { background-color: var(--light-bg); color: var(--text-dark); }
+        .font-playfair { font-family: 'Playfair Display', serif; }
+        .font-inter { font-family: 'Inter', sans-serif; }
+
+        .gold-text { color: var(--gold); }
+        .gold-bg { background-color: var(--gold); }
+        
+        .nav-scrolled {
+            background-color: rgba(253, 252, 249, 0.85);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 2px 10px rgba(0,0,0, 0.05);
+        }
+        .section-dark { background-color: var(--dark-bg); color: var(--text-light); }
+        
+        /* Modal */
+        #product-modal { visibility: hidden; opacity: 0; }
+
+        /* Estados iniciales para animaciones */
+        .reveal-up, #hero-subtitle, #hero-buttons, #hero-image {
+            opacity: 0;
+            transform: translateY(50px);
+            will-change: transform, opacity;
+        }
+        .hero-line {
+            overflow: hidden;
+        }
+        .hero-line span {
+            display: inline-block;
+            transform: translateY(120%);
+            will-change: transform;
+        }
+    </style>
+</head>
+<body class="font-inter overflow-x-hidden">
+
+    <!-- Barra de Navegación -->
+    <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300">
+        <div class="max-w-screen-xl mx-auto px-6 py-5">
+            <div class="flex justify-between items-center">
+                <a href="#inicio">
+                    <img src="https://i.imgur.com/EvfIsDN.png" alt="Aztlán Tequila Logo" class="h-12">
+                </a>
+                <div id="desktop-menu" class="hidden md:flex items-center space-x-10 text-gray-700 font-medium">
+                    <a href="#legado" class="hover:text-gold transition-colors duration-300">Legado</a>
+                    <a href="#proceso" class="hover:text-gold transition-colors duration-300">Proceso</a>
+                    <a href="#productos" class="hover:text-gold transition-colors duration-300">Colección</a>
+                    <a href="#contacto" class="hover:text-gold transition-colors duration-300">Contacto</a>
+                </div>
+                <button id="mobile-menu-button" class="md:hidden text-gray-800 focus:outline-none">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-lg">
+            <a href="#legado" class="block text-center py-4 px-6 text-gray-700 hover:bg-gold/10 transition-colors">Legado</a>
+            <a href="#proceso" class="block text-center py-4 px-6 text-gray-700 hover:bg-gold/10 transition-colors">Proceso</a>
+            <a href="#productos" class="block text-center py-4 px-6 text-gray-700 hover:bg-gold/10 transition-colors">Colección</a>
+            <a href="#contacto" class="block text-center py-4 px-6 text-gray-700 hover:bg-gold/10 transition-colors">Contacto</a>
+        </div>
+    </nav>
+
+    <!-- Sección de Inicio (Hero) -->
+    <section id="inicio" class="section-dark min-h-screen flex items-center relative overflow-hidden">
+        <div class="absolute inset-0 bg-radial-gradient from-transparent to-black/50 opacity-50"></div>
+        <div class="max-w-screen-xl mx-auto px-6 w-full grid lg:grid-cols-2 gap-12 items-center">
+            <div class="text-left">
+                <h1 class="font-playfair text-6xl md:text-7xl lg:text-8xl font-extrabold leading-tight text-white">
+                    <div class="hero-line"><span>El Espíritu</span></div>
+                    <div class="hero-line"><span class="gold-text">Ancestral.</span></div>
+                </h1>
+                <p id="hero-subtitle" class="text-lg text-gray-400 leading-relaxed max-w-md mt-6">
+                    Un tributo a la herencia, un viaje de sabor artesanal que captura la esencia mítica de Jalisco.
+                </p>
+                <div id="hero-buttons" class="mt-8">
+                    <a href="#productos" class="inline-block gold-bg text-black px-10 py-4 rounded-full font-semibold hover:brightness-110 transition-all duration-300">
+                        Explorar la Colección
+                    </a>
+                </div>
+            </div>
+            <div id="hero-image-container" class="relative flex justify-center items-center h-[80vh]">
+                <img id="hero-image" loading="eager" src="https://i.imgur.com/OAIGsYU.png" alt="Botella de Tequila Aztlán" class="max-h-full" style="filter: drop-shadow(0px 20px 50px rgba(0,0,0,0.5));">
+            </div>
+        </div>
+    </section>
+    
+    <!-- Sección Legado -->
+    <section id="legado" class="py-20 lg:py-32 relative">
+        <div class="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
+            <div id="legado-image-pin" class="h-screen sticky top-0 flex items-center">
+                <div class="w-full h-[70vh] relative overflow-hidden rounded-lg shadow-2xl">
+                    <img loading="lazy" src="https://i.imgur.com/mFVrJqb.png" alt="Campo de Agave" class="w-full h-full object-cover" id="legado-image">
+                </div>
+            </div>
+            <div class="relative z-10 lg:pt-[50vh] lg:pb-[50vh]">
+                <div class="bg-light-bg/80 backdrop-blur-md p-8 rounded-lg shadow-xl">
+                    <h2 class="font-playfair text-4xl md:text-5xl font-bold mb-6 text-amber-900/80">Donde Nace la Leyenda</h2>
+                    <div class="space-y-6 text-lg text-gray-700">
+                        <p>En el corazón de Jalisco, donde la tierra se tiñe de rojo y el sol besa los campos de agave, comienza nuestra historia. Aztlán no es un lugar, es un legado. Es el eco de generaciones de jimadores cuya sabiduría no se encuentra en libros, sino en la tierra misma.</p>
+                        <p>Cada botella es un tributo a esa devoción, una herencia transmitida a través del tiempo para cultivar el agave azul en su máxima expresión. Es el sabor de nuestra tierra y el espíritu de nuestra gente, destilado en una experiencia única.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Proceso Artesanal -->
+    <section id="proceso" class="section-dark py-20 lg:py-32">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="font-playfair text-4xl md:text-5xl font-bold mb-4 gold-text reveal-up">El Ritual Artesanal</h2>
+                <p class="text-lg text-gray-400 max-w-3xl mx-auto reveal-up">Cuatro pilares que definen la pureza y complejidad de nuestro tequila.</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
+                <div class="process-step text-center reveal-up">
+                    <div class="flex items-center justify-center w-20 h-20 mx-auto mb-6 border-2 border-gold rounded-full gold-text font-playfair text-3xl font-bold">1</div>
+                    <h3 class="text-2xl font-bold text-white mb-2">La Jima</h3>
+                    <p class="text-gray-400">Selección manual de los agaves más maduros para asegurar la máxima calidad de azúcares.</p>
+                </div>
+                <div class="process-step text-center reveal-up" data-delay="0.1">
+                    <div class="flex items-center justify-center w-20 h-20 mx-auto mb-6 border-2 border-gold rounded-full gold-text font-playfair text-3xl font-bold">2</div>
+                    <h3 class="text-2xl font-bold text-white mb-2">Cocción Lenta</h3>
+                    <p class="text-gray-400">En hornos de mampostería para una cocción uniforme que libera las notas dulces del agave.</p>
+                </div>
+                <div class="process-step text-center reveal-up" data-delay="0.2">
+                    <div class="flex items-center justify-center w-20 h-20 mx-auto mb-6 border-2 border-gold rounded-full gold-text font-playfair text-3xl font-bold">3</div>
+                    <h3 class="text-2xl font-bold text-white mb-2">Doble Destilación</h3>
+                    <p class="text-gray-400">En alambiques de cobre para refinar y purificar el espíritu, obteniendo una suavidad excepcional.</p>
+                </div>
+                <div class="process-step text-center reveal-up" data-delay="0.3">
+                    <div class="flex items-center justify-center w-20 h-20 mx-auto mb-6 border-2 border-gold rounded-full gold-text font-playfair text-3xl font-bold">4</div>
+                    <h3 class="text-2xl font-bold text-white mb-2">Maduración</h3>
+                    <p class="text-gray-400">Reposo paciente en barricas de roble blanco que otorgan complejidad y carácter a nuestras expresiones.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Productos -->
+    <section id="productos" class="py-20 lg:py-32 bg-gray-50">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="font-playfair text-4xl md:text-5xl font-bold mb-4 text-amber-900/80 reveal-up">La Colección</h2>
+                <p class="text-lg text-gray-600 reveal-up">Tres expresiones que capturan la esencia de Aztlán.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-12" style="perspective: 1200px;">
+                <!-- Producto: Blanco -->
+                <div class="producto-card text-center group reveal-up">
+                    <div class="relative bg-gradient-to-t from-gray-200/60 to-gray-50 rounded-lg p-8 transition-all duration-500 group-hover:shadow-2xl group-hover:-translate-y-3">
+                        <img loading="lazy" src="https://i.imgur.com/0zUpXq6.png" alt="Botella de Tequila Blanco" class="h-96 mx-auto object-contain producto-imagen transition-transform duration-500" style="transform-style: preserve-3d;">
+                    </div>
+                    <div class="mt-8">
+                        <h3 class="font-playfair text-3xl font-bold text-text-dark mb-2">Blanco</h3>
+                        <p class="text-gray-600 mb-4 text-sm h-12">Cristalino y puro. Notas frescas de agave cocido, cítricos y un final suave.</p>
+                        <button class="details-btn font-semibold text-gold hover:text-amber-900/80 transition-colors" data-title="Tequila Blanco" data-image="https://i.imgur.com/0zUpXq6.png" data-description="Nuestra expresión más pura. Captura la esencia del agave azul, recién cosechado y cocido lentamente en hornos de mampostería." data-tasting-notes="Aroma a agave cocido, pimienta y un toque herbal. En boca es suave, con notas cítricas y un final limpio y brillante." data-pairing="Perfecto para cócteles de alta gama o para disfrutarse solo, ligeramente frío.">Más Detalles →</button>
+                    </div>
+                </div>
+                <!-- Producto: Reposado -->
+                <div class="producto-card text-center group reveal-up" data-delay="0.1">
+                     <div class="relative bg-gradient-to-t from-gray-200/60 to-gray-50 rounded-lg p-8 transition-all duration-500 group-hover:shadow-2xl group-hover:-translate-y-3">
+                        <img loading="lazy" src="https://i.imgur.com/GSa5Icc.png" alt="Botella de Tequila Reposado" class="h-96 mx-auto object-contain producto-imagen transition-transform duration-500" style="transform-style: preserve-3d;">
+                    </div>
+                    <div class="mt-8">
+                        <h3 class="font-playfair text-3xl font-bold text-text-dark mb-2">Reposado</h3>
+                        <p class="text-gray-600 mb-4 text-sm h-12">Suave y equilibrado. Notas de vainilla, caramelo y un toque de madera de roble.</p>
+                        <button class="details-btn font-semibold text-gold hover:text-amber-900/80 transition-colors" data-title="Tequila Reposado" data-image="https://i.imgur.com/GSa5Icc.png" data-description="El equilibrio perfecto entre la pureza del agave y la complejidad de la madera. Nuestro Reposado descansa durante seis meses en barricas de roble blanco." data-tasting-notes="Aromas a vainilla, caramelo y agave cocido. En boca es sedoso, con un sabor a madera tostada y un final cálido y especiado." data-pairing="Ideal para beberse solo o en las rocas. Marida excelentemente con carnes asadas y platillos especiados.">Más Detalles →</button>
+                    </div>
+                </div>
+                <!-- Producto: Añejo -->
+                <div class="producto-card text-center group reveal-up" data-delay="0.2">
+                     <div class="relative bg-gradient-to-t from-gray-200/60 to-gray-50 rounded-lg p-8 transition-all duration-500 group-hover:shadow-2xl group-hover:-translate-y-3">
+                        <img loading="lazy" src="https://i.imgur.com/PXBmtLG.png" alt="Botella de Tequila Añejo" class="h-96 mx-auto object-contain producto-imagen transition-transform duration-500" style="transform-style: preserve-3d;">
+                    </div>
+                    <div class="mt-8">
+                        <h3 class="font-playfair text-3xl font-bold text-text-dark mb-2">Añejo</h3>
+                        <p class="text-gray-600 mb-4 text-sm h-12">Complejo y profundo. Sabor a chocolate, frutos secos y un final largo y sedoso.</p>
+                        <button class="details-btn font-semibold text-gold hover:text-amber-900/80 transition-colors" data-title="Tequila Añejo" data-image="https://i.imgur.com/PXBmtLG.png" data-description="La joya de nuestra colección. Madurado pacientemente durante 18 meses en barricas de roble francés, nuestro Añejo es una obra de arte líquida." data-tasting-notes="Notas intensas de chocolate, café, tabaco y frutos secos. En boca es robusto, aterciielado y con un final excepcionalmente largo." data-pairing="Disfrutar solo, en una copa de coñac. Acompaña perfectamente un buen puro o postres de chocolate amargo.">Más Detalles →</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Coctelería -->
+    <section id="cocteleria" class="section-dark py-20 lg:py-32">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="font-playfair text-4xl md:text-5xl font-bold mb-4 gold-text reveal-up">El Arte del Cóctel</h2>
+                <p class="text-lg text-gray-400 max-w-3xl mx-auto reveal-up">Descubre la versatilidad de Aztlán con nuestras creaciones de autor.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="cocktail-card group reveal-up">
+                    <div class="overflow-hidden rounded-lg mb-6">
+                        <img loading="lazy" src="https://placehold.co/800x1000/1a1a1a/FFFFFF?text=C%C3%B3ctel+Blanco" alt="Cóctel con Tequila Blanco" class="w-full h-96 object-cover transition-transform duration-500 group-hover:scale-110">
+                    </div>
+                    <h3 class="font-playfair text-2xl font-bold text-white">Paloma Dorada</h3>
+                    <p class="text-gray-400">Aztlán Blanco, jugo de toronja fresco, miel de agave y un toque de sal.</p>
+                </div>
+                <div class="cocktail-card group reveal-up" data-delay="0.1">
+                    <div class="overflow-hidden rounded-lg mb-6">
+                        <img loading="lazy" src="https://placehold.co/800x1000/1a1a1a/b9955a?text=C%C3%B3ctel+Reposado" alt="Cóctel con Tequila Reposado" class="w-full h-96 object-cover transition-transform duration-500 group-hover:scale-110">
+                    </div>
+                    <h3 class="font-playfair text-2xl font-bold text-white">Sol de Aztlán</h3>
+                    <p class="text-gray-400">Aztlán Reposado, licor de naranja, jugo de lima y un borde de chile.</p>
+                </div>
+                <div class="cocktail-card group reveal-up" data-delay="0.2">
+                    <div class="overflow-hidden rounded-lg mb-6">
+                        <img loading="lazy" src="https://placehold.co/800x1000/1a1a1a/8B5A2B?text=C%C3%B3ctel+A%C3%B1ejo" alt="Cóctel con Tequila Añejo" class="w-full h-96 object-cover transition-transform duration-500 group-hover:scale-110">
+                    </div>
+                    <h3 class="font-playfair text-2xl font-bold text-white">Noche Ancestral</h3>
+                    <p class="text-gray-400">Aztlán Añejo, amargo de angostura, un terrón de azúcar y piel de naranja.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Contacto -->
+    <section id="contacto" class="py-20 lg:py-32">
+        <div class="max-w-5xl mx-auto px-6 text-center">
+            <h2 class="font-playfair text-4xl md:text-5xl font-bold mb-6 text-amber-900/80 reveal-up">Encuentra Aztlán</h2>
+            <p class="text-lg text-gray-600 mb-16 reveal-up">Disponible en las tiendas departamentales más exclusivas y mercados en línea.</p>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 items-center mb-20 reveal-up">
+                <a href="#" class="store-logo" title="Liverpool"><img loading="lazy" src="https://placehold.co/200x80/000000/FFFFFF?text=Liverpool" class="mx-auto h-12 filter grayscale hover:grayscale-0 transition-all duration-300" alt="Liverpool"></a>
+                <a href="#" class="store-logo" title="Sears"><img loading="lazy" src="https://placehold.co/200x80/000000/FFFFFF?text=Sears" class="mx-auto h-12 filter grayscale hover:grayscale-0 transition-all duration-300" alt="Sears"></a>
+                <a href="#" class="store-logo" title="Palacio de Hierro"><img loading="lazy" src="https://placehold.co/200x80/000000/FFFFFF?text=Palacio+de+Hierro" class="mx-auto h-16 filter grayscale hover:grayscale-0 transition-all duration-300" alt="Palacio de Hierro"></a>
+                <a href="#" class="store-logo" title="Mercado Libre"><img loading="lazy" src="https://placehold.co/200x80/000000/FFFFFF?text=Mercado+Libre" class="mx-auto h-12 filter grayscale hover:grayscale-0 transition-all duration-300" alt="Mercado Libre"></a>
+            </div>
+    
+            <div class="reveal-up">
+                 <h3 class="text-2xl font-semibold text-text-dark mb-4">Ventas y Eventos Privados</h3>
+                 <p class="text-lg text-gray-700 mb-6 max-w-2xl mx-auto">Para pedidos especiales o para llevar la experiencia Aztlán a tu evento, contáctanos.</p>
+                 <a href="tel:+525512345678" class="inline-block bg-gray-800 text-white px-8 py-3 rounded-full font-bold text-lg hover:bg-black transition-all duration-300">
+                    Llamar al 55 1234 5678
+                 </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="section-dark py-16">
+        <div class="max-w-6xl mx-auto px-6 text-gray-400">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="md:col-span-1">
+                    <a href="#inicio" class="inline-block mb-4">
+                        <img src="https://i.imgur.com/EvfIsDN.png" alt="Aztlán Tequila Logo" class="h-14">
+                    </a>
+                    <p class="text-sm text-gray-500">El Espíritu Ancestral de Jalisco.</p>
+                </div>
+                <div class="md:col-span-1">
+                    <h4 class="font-bold text-white mb-4">Navegación</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#legado" class="hover:text-gold transition-colors">Legado</a></li>
+                        <li><a href="#proceso" class="hover:text-gold transition-colors">Proceso</a></li>
+                        <li><a href="#productos" class="hover:text-gold transition-colors">Colección</a></li>
+                        <li><a href="#contacto" class="hover:text-gold transition-colors">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="md:col-span-2">
+                    <h4 class="font-bold text-white mb-4">Únete a nuestra comunidad</h4>
+                    <p class="text-sm mb-4">Recibe noticias exclusivas, acceso a eventos y nuevas recetas.</p>
+                    <form class="flex">
+                        <input type="email" placeholder="Tu correo electrónico" class="w-full bg-gray-800 text-white px-4 py-2 rounded-l-md focus:outline-none focus:ring-2 focus:ring-gold">
+                        <button type="submit" class="gold-bg text-black px-6 py-2 font-semibold rounded-r-md hover:brightness-110">Suscribirse</button>
+                    </form>
+                </div>
+            </div>
+            <div class="mt-12 border-t border-gray-800 pt-8 text-center text-sm">
+                <p>© 2025 Tequila Aztlán. Todos los derechos reservados. | Disfruta con responsabilidad.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Ventana Modal -->
+    <div id="product-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 transition-all duration-300">
+        <div id="modal-backdrop" class="absolute inset-0 bg-black/80 backdrop-blur-md"></div>
+        <div id="modal-content" class="relative bg-white text-gray-800 rounded-lg shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto grid md:grid-cols-2 gap-8 p-8 transform scale-95">
+            <button id="modal-close-btn" class="absolute top-4 right-4 text-gray-500 hover:text-black transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div>
+                <img id="modal-image" src="" alt="Botella de Tequila" class="w-full h-auto object-contain rounded-md max-h-[70vh]">
+            </div>
+            <div class="space-y-4 py-4">
+                <h3 id="modal-title" class="font-playfair text-4xl font-bold text-amber-900/90"></h3>
+                <p id="modal-description" class="text-gray-600"></p>
+                <div>
+                    <h4 class="font-bold text-lg mb-2 text-gray-800 border-b pb-1">Notas de Cata</h4>
+                    <p id="modal-tasting-notes" class="text-gray-600"></p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-2 text-gray-800 border-b pb-1">Maridaje Sugerido</h4>
+                    <p id="modal-pairing" class="text-gray-600"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Menú y Modal (sin cambios de lógica) ---
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+            mobileMenu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => mobileMenu.classList.add('hidden')));
+            const navbar = document.getElementById('navbar');
+            const modal = document.getElementById('product-modal');
+            const modalContent = document.getElementById('modal-content');
+            const modalBackdrop = document.getElementById('modal-backdrop');
+            const closeBtn = document.getElementById('modal-close-btn');
+            const detailBtns = document.querySelectorAll('.details-btn');
+            const modalTitle = document.getElementById('modal-title');
+            const modalImage = document.getElementById('modal-image');
+            const modalDescription = document.getElementById('modal-description');
+            const modalTastingNotes = document.getElementById('modal-tasting-notes');
+            const modalPairing = document.getElementById('modal-pairing');
+
+            const openModal = (data) => {
+                modalTitle.textContent = data.title;
+                modalImage.src = data.image;
+                modalDescription.textContent = data.description;
+                modalTastingNotes.textContent = data.tastingNotes;
+                modalPairing.textContent = data.pairing;
+                modal.style.visibility = 'visible';
+                gsap.to(modal, { opacity: 1, duration: 0.3 });
+                gsap.fromTo(modalContent, { scale: 0.95, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, delay: 0.1 });
+                document.body.style.overflow = 'hidden';
+            };
+            const closeModal = () => {
+                gsap.to(modal, { opacity: 0, duration: 0.3, onComplete: () => {
+                    modal.style.visibility = 'hidden';
+                    document.body.style.overflow = 'auto';
+                }});
+            };
+            detailBtns.forEach(btn => btn.addEventListener('click', () => openModal(btn.dataset)));
+            closeBtn.addEventListener('click', closeModal);
+            modalBackdrop.addEventListener('click', closeModal);
+
+            // --- GSAP Animaciones Optimizadas ---
+            gsap.registerPlugin(ScrollTrigger);
+            
+            // Animación de entrada para elementos
+            gsap.utils.toArray('.reveal-up').forEach((elem) => {
+                gsap.to(elem, { 
+                    opacity: 1, 
+                    y: 0, 
+                    duration: 1.2, 
+                    ease: 'power4.out',
+                    delay: elem.dataset.delay || 0,
+                    scrollTrigger: {
+                        trigger: elem,
+                        start: 'top 90%',
+                        toggleActions: 'play none none none'
+                    }
+                });
+            });
+
+            // Animación Hero
+            const heroTl = gsap.timeline({defaults: {ease: "power4.out", duration: 1.5}});
+            heroTl.to(".hero-line span", { y: 0, stagger: 0.1, delay: 0.2 })
+                  .to("#hero-subtitle", { opacity: 1, y: 0 }, "-=1")
+                  .to("#hero-buttons", { opacity: 1, y: 0 }, "-=1")
+                  .to("#hero-image", { opacity: 1, y: 0, scale: 1, rotation: 0, duration: 2 }, 0.2);
+            
+            // Efecto Pin y Zoom en Legado
+            gsap.fromTo("#legado-image", 
+                { scale: 1.25 },
+                {
+                    scale: 1,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: "#legado-image-pin",
+                        start: "top center",
+                        end: "bottom top",
+                        scrub: 1.5
+                    }
+                }
+            );
+
+            // Navbar Scroll
+            let lastScroll = 0;
+            window.addEventListener('scroll', () => {
+                const currentScroll = window.pageYOffset;
+                if (currentScroll > lastScroll && currentScroll > 100) {
+                    gsap.to(navbar, { y: '-100%', duration: 0.4, ease: 'power2.in' });
+                } else {
+                    gsap.to(navbar, { y: '0%', duration: 0.4, ease: 'power2.out' });
+                }
+                lastScroll = currentScroll <= 0 ? 0 : currentScroll;
+                navbar.classList.toggle('nav-scrolled', window.scrollY > 50);
+            });
+            
+            // Efecto Parallax 3D en Productos
+            gsap.utils.toArray('.producto-card').forEach(card => {
+                const img = card.querySelector('.producto-imagen');
+                card.addEventListener('mousemove', (e) => {
+                    const { left, top, width, height } = card.getBoundingClientRect();
+                    const x = e.clientX - left;
+                    const y = e.clientY - top;
+                    const rotateX = gsap.utils.mapRange(0, height, -8, 8, y);
+                    const rotateY = gsap.utils.mapRange(0, width, 8, -8, x);
+                    gsap.to(img, {
+                        rotationX: rotateX,
+                        rotationY: rotateY,
+                        z: 20,
+                        duration: 0.7,
+                        ease: "power3.out"
+                    });
+                });
+                card.addEventListener('mouseleave', () => {
+                    gsap.to(img, {
+                        rotationX: 0,
+                        rotationY: 0,
+                        z: 0,
+                        duration: 0.7,
+                        ease: "power3.out"
+                    });
+                });
+            });
+
+        });
+    </script>
+</body>
+</html>
