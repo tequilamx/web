@@ -52,26 +52,6 @@
             transform: translateY(120%);
             will-change: transform;
         }
-        /* Chatbot styles */
-        #chatbot-container {
-            transform: translateY(20px);
-            opacity: 0;
-            visibility: hidden;
-        }
-        .typing-indicator span {
-            height: 8px;
-            width: 8px;
-            background-color: #a3a3a3;
-            display: inline-block;
-            border-radius: 50%;
-            animation: bounce 1.4s infinite ease-in-out both;
-        }
-        .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
-        .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
-        @keyframes bounce {
-            0%, 80%, 100% { transform: scale(0); }
-            40% { transform: scale(1.0); }
-        }
     </style>
 </head>
 <body class="font-inter overflow-x-hidden">
@@ -127,15 +107,15 @@
     </section>
     
     <!-- Sección Legado -->
-    <section id="legado" class="py-20 lg:py-40">
+    <section id="legado" class="py-20 lg:py-32 relative">
         <div class="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
-            <div class="lg:h-auto">
+            <div id="legado-image-pin" class="h-screen sticky top-0 flex items-center">
                 <div class="w-full h-[70vh] relative overflow-hidden rounded-lg shadow-2xl">
-                    <img loading="lazy" src="https://i.imgur.com/mFVrJqb.png" alt="Campo de Agave" class="w-full h-full object-cover parallax-img">
+                    <img loading="lazy" src="https://i.imgur.com/mFVrJqb.png" alt="Campo de Agave" class="w-full h-full object-cover" id="legado-image">
                 </div>
             </div>
-            <div class="relative z-10">
-                <div class="reveal-up">
+            <div class="relative z-10 lg:pt-[50vh] lg:pb-[50vh]">
+                <div class="bg-light-bg/80 backdrop-blur-md p-8 rounded-lg shadow-xl">
                     <h2 class="font-playfair text-4xl md:text-5xl font-bold mb-6 text-amber-900/80">Donde Nace la Leyenda</h2>
                     <div class="space-y-6 text-lg text-gray-700">
                         <p>En el corazón de Jalisco, donde la tierra se tiñe de rojo y el sol besa los campos de agave, comienza nuestra historia. Aztlán no es un lugar, es un legado. Es el eco de generaciones de jimadores cuya sabiduría no se encuentra en libros, sino en la tierra misma.</p>
@@ -179,24 +159,24 @@
     </section>
 
     <!-- Sección Filosofía -->
-    <section id="filosofia" class="py-20 lg:py-32">
+    <section id="filosofia" class="section-dark py-20 lg:py-32">
         <div class="max-w-6xl mx-auto px-6">
             <div class="text-center mb-16">
-                <h2 class="font-playfair text-4xl md:text-5xl font-bold mb-4 text-amber-900/80 reveal-up">Nuestra Filosofía</h2>
-                <p class="text-lg text-gray-600 max-w-3xl mx-auto reveal-up">Los principios que guían cada gota de Aztlán.</p>
+                <h2 class="font-playfair text-4xl md:text-5xl font-bold mb-4 gold-text reveal-up">Nuestra Filosofía</h2>
+                <p class="text-lg text-gray-400 max-w-3xl mx-auto reveal-up">Los principios que guían cada gota de Aztlán.</p>
             </div>
             <div class="grid md:grid-cols-3 gap-10">
                 <div class="philosophy-card text-center reveal-up">
-                    <h3 class="font-playfair text-3xl font-bold mb-4 text-text-dark">Misión</h3>
-                    <p class="text-gray-700">Destilar la esencia de nuestra herencia en un tequila de calidad suprema, creando un puente entre el pasado mítico de México y el presente global.</p>
+                    <h3 class="font-playfair text-3xl font-bold mb-4 text-white">Misión</h3>
+                    <p class="text-gray-400">Destilar la esencia de nuestra herencia en un tequila de calidad suprema, creando un puente entre el pasado mítico de México y el presente global.</p>
                 </div>
                 <div class="philosophy-card text-center reveal-up" data-delay="0.1">
-                    <h3 class="font-playfair text-3xl font-bold mb-4 text-text-dark">Visión</h3>
-                    <p class="text-gray-700">Convertir a Aztlán en un ícono mundial del lujo y la cultura mexicana, siendo la elección definitiva para conocedores que buscan autenticidad y excelencia.</p>
+                    <h3 class="font-playfair text-3xl font-bold mb-4 text-white">Visión</h3>
+                    <p class="text-gray-400">Convertir a Aztlán en un ícono mundial del lujo y la cultura mexicana, siendo la elección definitiva para conocedores que buscan autenticidad y excelencia.</p>
                 </div>
                 <div class="philosophy-card text-center reveal-up" data-delay="0.2">
-                    <h3 class="font-playfair text-3xl font-bold mb-4 text-text-dark">Valores</h3>
-                    <ul class="text-gray-700 space-y-1">
+                    <h3 class="font-playfair text-3xl font-bold mb-4 text-white">Valores</h3>
+                    <ul class="text-gray-400 space-y-1">
                         <li><strong>Herencia:</strong> Custodios de un legado ancestral.</li>
                         <li><strong>Artesanía:</strong> Dedicación al detalle en cada gota.</li>
                         <li><strong>Respeto:</strong> Por nuestra tierra y nuestra gente.</li>
